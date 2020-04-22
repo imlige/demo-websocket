@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket Demo</title>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+
+<h1 style="text-align: center" id="h1"></h1>
+<h3 style="padding: 10px">消息展示区：</h3>
+<div style="border: 5px solid blue;padding: 10px;" id="div"></div>
+
+<button onclick="send()">发送</button>
+
+<script>
+    if(typeof(WebSocket) == "undefined") {
+        alert("您的浏览器不支持WebSocket");
+    }else{
+
+        // 实例化 WebSocket 对象，指定要连接的服务器地址与端口  建立连接
+        var ws = new WebSocket("ws://localhost:8080/WebSocketServer");
+
+        // 用来消息展示的 div
+        var div = document.getElementById("div");
+
+        // 打开事件
+        ws.onopen = function() {
+            document.getElementById("h1").innerText = "您已经成功连上服务端了";
+
+            // 可以使用 ws.send("消息内容") 向服务端发消息
+        };
+
+        // 获得消息事件
+        ws.onmessage = function(msg) {
+            div.innerHTML = div.innerHTML + "<div style='margin: 10px;'>" + msg.data + "</div>";
+        };
+
+        // 关闭事件
+        // ws.onclose = function() {
+        //    console.log("已关闭");
+        // };
+
+        // 发生了错误事件
+        ws.onerror = function() {
+            alert("发生了错误");
+            //此时可以尝试刷新页面
+        }
+
+        function send() {
+            $.post( '/controller/sendMessage2allClients', {message:prompt("请输入：")}, function(response){} );
+        }
+    }
+</script>
+</body>
+</html>
