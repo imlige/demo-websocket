@@ -3,14 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>WebSocket Demo</title>
-    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body>
 
 <h1 style="text-align: center" id="h1"></h1>
 <h3 style="padding: 10px">消息展示区：</h3>
 <div style="border: 5px solid blue;padding: 10px;" id="div"></div>
-
+<div style="border: 5px solid blue;padding: 10px;">
+    <label for="input">输入框</label>
+    <textarea id="input"></textarea>
+</div>
 <button onclick="send()">发送</button>
 
 <script>
@@ -48,7 +50,15 @@
         }
 
         function send() {
-            $.post( '/controller/sendMessage2allClients', {message:prompt("请输入：")}, function(response){} );
+            let req = new XMLHttpRequest()
+            req.open("POST", '/controller/sendMessage2allClients', false)
+            req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+            req.send("message="+document.getElementById("input").value)
+            req.onreadystatechange = function(){
+                if (req.readyState===4 && req.status===200) {
+
+                }
+            }
         }
     }
 </script>

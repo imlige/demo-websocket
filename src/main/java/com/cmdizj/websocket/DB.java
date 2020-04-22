@@ -17,8 +17,10 @@ public class DB {
 
     /**
      * java.util.concurrent 包的线程安全的 Set 集合
-     * 客户端【前端浏览器】 每次 使用 new WebSocket("ws://localhost:8080/websocket") 时，即与服务端【后端】创建连接时，后端 new 一个 WebSocketServer
-     *      【 可见 WebSocketServer 是多例的 --> 前端有多少个 new WebSocket("ws://localhost:8080/websocket")   就后端有多少个 new WebSocketServer 】
+     * 客户端【前端浏览器】 每次 使用 new WebSocket("ws://localhost:8080/websocket") 时，即与服务端【后端】创建连接时，
+     * 后端 new 一个 WebSocketServer。
+     * 可见 WebSocketServer 是多例的 --> 前端有多少个 new WebSocket("ws://localhost:8080/websocket")
+     * 就后端有多少个 new WebSocketServer
      * WebSocketServers 用来存储 总共有多少个 WebSocketServer 被 new 了
      */
     public static CopyOnWriteArraySet<WebSocketServer> webSocketServers = new CopyOnWriteArraySet<>();
